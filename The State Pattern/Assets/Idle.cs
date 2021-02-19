@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Idle : State
 {
-    public Idle (GameObject _npc, NavMeshAgent _agent, Animator _anim, Transform _player)
+    public Idle(GameObject _npc, NavMeshAgent _agent, Animator _anim, Transform _player)
         : base(_npc, _agent, _anim, _player)
     {
         name = STATE.IDLE;
@@ -24,13 +24,12 @@ public class Idle : State
             nextState = new Patrol(npc, agent, anim, player);
             stage = EVENT.EXIT;
         }
-        base.Update();
     }
 
     public override void Exit()
     {
         // Clean all the triggers in the queue
         anim.ResetTrigger("isIdle");
-        base.Exit()
+        base.Exit();
     }
 }

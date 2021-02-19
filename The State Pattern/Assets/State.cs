@@ -30,8 +30,8 @@ public class State
     }
 
     public virtual void Enter() { stage = EVENT.UPDATE; }
-    public virtual void Update() { stage = EVENT.UPDATE;  }
-    public virtual void Exit() { stage = EVENT.EXIT;  }
+    public virtual void Update() { stage = EVENT.UPDATE; }
+    public virtual void Exit() { stage = EVENT.EXIT; }
 
     public State Process()
     {

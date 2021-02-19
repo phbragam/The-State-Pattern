@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public sealed class GameEnvironment 
 {
@@ -8,7 +9,7 @@ public sealed class GameEnvironment
     private List<GameObject> checkpoints = new List<GameObject>();
     public List<GameObject> Checkpoints { get { return checkpoints; } }
 
-    public GameEnvironment Instance
+    public static GameEnvironment Instance
     {
         get
         {
@@ -16,19 +17,9 @@ public sealed class GameEnvironment
             {
                 instance = new GameEnvironment();
                 instance.Checkpoints.AddRange(GameObject.FindGameObjectsWithTag("Checkpoint"));
+                instance.checkpoints = instance.checkpoints.OrderBy(waypoint => waypoint.name).ToList();
             }
             return instance;
         }
     }
-
-    public void AddChechpoint(GameObject c)
-    {
-        Instance.checkpoints.Add(c);
-    }
-
-    public void RemoveCheckpoint(GameObject c)
-    {
-        Instance.checkpoints.Remove(c);
-    }
-   
 }

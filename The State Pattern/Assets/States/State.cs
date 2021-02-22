@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class State
 {
-    public enum STATE { IDLE, PATROL, PURSUE, ATTACK, SLEEP };
+    public enum STATE { IDLE, PATROL, PURSUE, ATTACK, SLEEP, SAFE };
     public enum EVENT { ENTER, UPDATE, EXIT };
 
     public STATE name;
@@ -14,11 +14,15 @@ public class State
     protected NavMeshAgent agent;
     protected Animator anim;
     protected Transform player;
+    protected Transform safeBox;
     protected State nextState;
 
     float visDist = 10.0f;
     float visAngle = 30.0f;
     float shootDist = 7.0f;
+
+    float boxDist = 4f;
+    float behindDist = 3f;
 
     public State(GameObject _npc, NavMeshAgent _agent, Animator _anim, Transform _player)
     {
@@ -61,6 +65,28 @@ public class State
     {
         Vector3 direction = player.position - npc.transform.position;
         if(direction.magnitude < shootDist)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool IsSomeoneBehind()
+    {
+        Vector3 direction = player.position - npc.transform.position;
+        // If player is back, direction is backwards
+        float angle = Vector3.Angle(direction, -npc.transform.forward);
+        if (direction.magnitude < behindDist && angle < visAngle)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool ReachedBox()
+    {
+        Vector3 direction = npc.transform.position - safeBox.transform.position;
+        if (direction.magnitude < boxDist)
         {
             return true;
         }

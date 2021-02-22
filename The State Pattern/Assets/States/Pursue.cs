@@ -16,12 +16,12 @@ public class Pursue : State
     public override void Enter()
     {
         anim.SetTrigger("isRunning");
+        agent.SetDestination(player.position);
         base.Enter();
     }
 
     public override void Update()
     {
-        agent.SetDestination(player.position);
         if (agent.hasPath)
         {
             if (CanAttackPlayer())

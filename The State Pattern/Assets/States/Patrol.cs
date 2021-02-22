@@ -13,6 +13,7 @@ public class Patrol : State
         name = STATE.PATROL;
         agent.speed = 2;
         agent.isStopped = false;
+        safeBox = GameEnvironment.Instance.SafeBox;
     }
 
     public override void Enter()
@@ -49,6 +50,12 @@ public class Patrol : State
         if (CanSeePlayer())
         {
             nextState = new Pursue(npc, agent, anim, player);
+            stage = EVENT.EXIT;
+        }
+
+        if (IsSomeoneBehind())
+        {
+            nextState = new Safe(npc, agent, anim, player);
             stage = EVENT.EXIT;
         }
     }
